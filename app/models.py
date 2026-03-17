@@ -20,11 +20,11 @@ class Project(db.Model):
     description = db.Column(db.Text, nullable=False)
     github_link = db.Column(db.String(200))
     live_demo = db.Column(db.String(200))
-    image_filename = db.Column(db.String(100)) # !important this store name of the image file
+    image_filename = db.Column(db.String(100)) # important this store name of the image file
 
 class Certificate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
-    pdf_filename = db.Column(db.String(100))
+    pdf_filename = db.Column(db.String(100))  # store name of the pdf file
     image_filename = db.Column(db.String(100))
