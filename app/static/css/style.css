@@ -148,6 +148,16 @@ span {
     box-shadow: 0 0 1rem var(--main-color);
 }
 
+.btn-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.btn-container hr {
+    width: 0.4rem;
+    background-color: var(--text-color);
+}
+
 .btn {
     display: inline-block;
     padding: 1rem 2.8rem;

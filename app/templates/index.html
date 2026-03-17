@@ -15,7 +15,11 @@
         <a href="https://github.com/Me-Shervs" target="_blank"><i class="bx bxl-github"></i></a> 
         <a href="https://www.linkedin.com/in/shervie/" target="_blank"><i class="bx bxl-linkedin"></i></a>
     </div>
-    <a href="#" download class="btn">Download CV</a>
+    <div class="btn-container">
+        <a href="{{ url_for('static', filename='pdf/Astor, Shervie James - CV.pdf') }}" download class="btn">Download CV</a>
+        <hr>
+        <a href="{{ url_for('static', filename='pdf/Astor, Shervie James - Resume.pdf') }}" download class="btn">Download Resume</a>
+    </div>
 </div>
 <div class="home-img">
     <img src="{{url_for('static', filename='images/profile-image2.png')}}">
