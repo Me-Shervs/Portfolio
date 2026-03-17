@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- home section design -->
+<section class="home" id="home">
+<div class="home-content">
+    <h3>Hello, It's Me</h3>
+    {% if user %}
+    <h1>{{ user.user }}</h1>
+    {% else %}
+    <h1>No User</h1>
+    {% endif %}
+    <h3>And I'm a <span class="multiple-text"></span></h3>
+    <div class="social-media">
+        <a href="https://www.facebook.com/shervie.astor.2025" target="_blank"><i class="bx bxl-facebook"></i></a> 
+        <a href="https://github.com/Me-Shervs" target="_blank"><i class="bx bxl-github"></i></a> 
+        <a href="https://www.linkedin.com/in/shervie/" target="_blank"><i class="bx bxl-linkedin"></i></a>
+    </div>
+    <a href="#" download class="btn">Download CV</a>
+</div>
+<div class="home-img">
+    <img src="{{url_for('static', filename='images/profile-image2.png')}}">
+</div>
+</section>
+
+<!-- about section design -->
+<section class="about" id="about">
+<div class="about-img">
+    <img src="{{url_for('static', filename='images/about-image2.jpg')}}">
+</div>
+<div class="about-content">
+    <h2 class="heading">About <span>Me!</span></h2>
+    <div class="history">
+        <div class="educ-container">
+            <div class="awards">
+                <i class="bx bxs-graduation educ-icon"></i>
+                <h3>Education</h3>
+                <p class="abt-text-highlight">
+                    Bachelor of Science in Information Technology <br>
+                    <span>Cum laude</span> & <span>Leadership Awardee</span>
+                </p>
+            </div>
+            <p>
+                Cum Laude graduate of BS Information Technology from ICCT Colleges with hands-on internship experience in real-world development. 
+                Former student organization officer who led programming workshops and technical initiatives. 
+                Passionate about full-stack development, I build practical and scalable solutions to real-world problems and am eager to grow as a developer while contributing to innovative projects.
+            </p>
+            <a href="{{url_for('main.about')}}" class="btn">Read More</a>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- tech section design -->
+<section class="tech-stack" id="tech">
+    <h2 class="heading">Tech <span>Stack</span></h2>
+
+    <div class="tech-container">
+
+        <div class="tech-box">
+            <i class='bx bxl-html5'></i>
+            <p>HTML5</p>
+        </div>
+
+        <div class="tech-box">
+            <i class='bx bxl-css3'></i>
+            <p>CSS3</p>
+        </div>
+
+        <div class="tech-box">
+            <i class='bx bxl-javascript'></i>
+            <p>JavaScript</p>
+        </div>
+
+        <div class="tech-box">
+            <i class='bx bxl-python'></i>
+            <p>Python</p>
+        </div>
+
+        <div class="tech-box">
+            <i class='bx bxl-github'></i>
+            <p>GitHub</p>
+        </div>
+
+        <div class="tech-box">
+            <i class='bx bx-data'></i>
+            <p>SQLite</p>
+        </div>
+
+        <div class="tech-box">
+            <i class='bx bx-server'></i>
+            <p>Flask</p>
+        </div>
+
+        <div class="tech-box">
+            <i class='bx bx-chip'></i>
+            <p>Raspberry Pi</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- portfolio section design -->
+<section class="portfolio" id="portfolio">
+    <h2 class="heading">Latest <span>Project</span></h2>
+
+    <div class="portfolio-container">
+        {% for project in projects %}
+        <div class="portfolio-box">
+        <img src="{{url_for('static', filename='images/project-images/' ~ project.image_filename) }}" alt="">
+            <div class="portfolio-layer">
+                <h4>{{ project.title }}</h4>
+                <p>{{ project.description }}</p>
+                <div class="project-link">
+                    {% if project.github_link %}
+                    <a href="{{ project.github_link }}">Github <i class="bx bxl-github"></i></a>
+                    {% endif %}
+                    {% if project.live_demo %}
+                    <a href="{{ project.live_demo }}">Live Demo <i class="bx bx-link"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Awards & Certs section design -->
+<section class="certificates" id="certificates">
+    <h2 class="heading">Certificates & <span>Awards</span></h2>
+
+    <div class="cert-scroll">
+
+        {% for cert in certificates %}
+        <div class="cert-card">
+
+            <img src="{{ url_for('static', filename='images/certificate-images/' ~ cert.image_filename) }}">
+
+            <div class="cert-layer">
+                <h4>{{ cert.title }}</h4>
+                <p>{{ cert.description }}</p>
+                <span>{{ cert.organization }}</span>
+
+                <div class="project-link">
+                    <a href="{{ url_for('static', filename='certificates/' ~ cert.pdf_filename) }}" target="_blank">
+                        View Certificate <i class='bx bx-award'></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+    
+<!-- contact section design -->
+<section class="contact" id="contact">
+    <h2 class="heading">Contact <span>Me!</span></h2>
+
+    <form action="{{ url_for('main.contact') }}" method="POST">
+        <div class="input-box">
+            <input type="text" name="fullname" placeholder="Full Name">
+            <input type="email" name="email" placeholder="Email Address">
+        </div>
+        <div class="input-box">
+            <input type="number" name="number" placeholder="Mobile Number">
+            <input type="text" name="subject" placeholder="Email Subject">
+        </div>
+        <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
+        <input type="submit" value="Send Message" class="btn">
+    </form>
+</section>
+{% endblock %}

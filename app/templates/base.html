@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/about.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/add_projects.css')}}">
+</head>
+<body>
+    
+    <header class="header">
+        <a href="#" class="logo">
+            Me.
+        </a>
+
+        <i class="bx bx-menu" id="menu-icon"></i>
+
+        <nav class="navbar">
+            <a href="{{ url_for('main.home') }}#home" class="active">Home</a>
+            <a href="{{ url_for('main.home') }}#about">About</a>
+            <a href="{{ url_for('main.home') }}#tech">Tech Stack</a>
+            <a href="{{ url_for('main.home') }}#portfolio">Portfolio</a>
+            <a href="{{ url_for('main.home') }}#contact">Contact</a>
+        </nav>
+    </header>
+    {% block content %} 
+    {% endblock %}
+    <!-- footer section design -->
+    <footer class="footer">
+        <div class="footer-text">
+            <p>Copyright &copy; 2026 by Shervie | All Rights Reserved.</p>
+        </div>
+        <div class="footer-iconTop">
+            <a href="{{url_for('main.home')}}#home"><i class="bx bx-up-arrow-alt"></i></a>
+        </div>
+    </footer>
+
+    <!-- scroll reveal -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <!-- typed js  -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <!-- Swiper CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- custom js -->
+    <script src="{{ url_for('static', filename='js/about-script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

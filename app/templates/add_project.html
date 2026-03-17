@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="add-project-container add-cert-container">
+    <h2>Add New <span>Project</span></h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Title:</label>
+        <input type="text" name="title" placeholder="Title" required><br>
+
+        <label>Description:</label>
+        <textarea name="description" placeholder="Description" required></textarea><br>
+
+        <label>Github Link:</label>
+        <input type="url" name="github" placeholder="Github Link" ><br>
+
+        <label>Live Demo Link:</label>
+        <input type="url" name="demo" placeholder="Live Demo Link"><br>
+
+        <label>Image:</label>
+        <input type="file" name="image" placeholder="Image"><br>
+
+        <button type="submit">Add Project</button>
+    </form>
+</div>
+{% endblock %}
