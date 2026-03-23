@@ -36,6 +36,7 @@ def contact():
     # This SEnd Email
     msg = Message(
         subject=f"Portfolio Contact: {subject}",
+        sender=os.getenv("MAIL_DEFAULT_SENDER"),
         recipients=[os.getenv("MAIL_USERNAME")]
     )
 
