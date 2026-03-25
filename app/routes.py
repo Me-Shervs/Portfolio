@@ -1,9 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, Blueprint
-from flask_mail import Message
 from app.models import User, Contact, Project, Certificate
-from app import db, mail
+from app import db
 from werkzeug.utils import secure_filename
 import os
+import resend
+import requests
+from app import limiter
+
+
 
 main = Blueprint('main', __name__)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), 'app/static/images/project-images')
@@ -15,43 +19,67 @@ def home():
     user = User.query.first()
     projects = Project.query.order_by(Project.id.desc()).all()
     certificates = Certificate.query.all()
-    return render_template('index.html', user=user, projects=projects, certificates=certificates)
+    site_key = os.getenv("RECAPTCHA_SITE_KEY")
+    return render_template('index.html', user=user, projects=projects, certificates=certificates, site_key=site_key)
 
 @main.route('/about')
 def about():
     return render_template('about.html')
 
 @main.route('/contact', methods=['POST'])
+@limiter.limit("10 per minute")
 def contact():
+    # Honeypot
+    if request.form.get('hidden_field_xyz'):
+        return redirect(url_for('main.home'))
+
     name = request.form['fullname']
     email = request.form['email']
     number = request.form['number']
     subject = request.form['subject']
     message = request.form['message']
 
-    new_contact = Contact(name=name, email=email, number=number, subject=subject, message=message)
+    # reCAPTCHA
+    recaptcha_response = request.form.get('g-recaptcha-response')
+    secret_key = os.getenv("RECAPTCHA_SECRET_KEY")
+
+    verify = requests.post(
+        "https://www.google.com/recaptcha/api/siteverify",
+        data={
+            "secret": secret_key,
+            "response": recaptcha_response
+        }
+    ).json()
+
+    if not verify.get("success"):
+        return "Spam detected", 400
+
+    # Save
+    new_contact = Contact(
+        name=name,
+        email=email,
+        number=number,
+        subject=subject,
+        message=message
+    )
     db.session.add(new_contact)
     db.session.commit()
 
-    # This SEnd Email
-    msg = Message(
-        subject=f"Portfolio Contact: {subject}",
-        sender=os.getenv("MAIL_DEFAULT_SENDER"),
-        recipients=[os.getenv("MAIL_USERNAME")]
-    )
+    # Send email (Resend)
+    resend.api_key = os.getenv("RESEND_API_KEY")
 
-    msg.body = f"""
-New Message from your portfolio
-
-Name: {name}
-Email: {email}
-Phone:{number}
-
-Message:
-{message}
-    """
-
-    mail.send(msg)
+    resend.Emails.send({
+        "from": "onboarding@resend.dev",
+        "to": [os.getenv("MAIL_USERNAME")],
+        "subject": f"Portfolio Contact: {subject}",
+        "html": f"""
+        <h2>New Message</h2>
+        <p><b>Name:</b> {name}</p>
+        <p><b>Email:</b> {email}</p>
+        <p><b>Phone:</b> {number}</p>
+        <p>{message}</p>
+        """
+    })
 
     return redirect(url_for('main.home'))
 

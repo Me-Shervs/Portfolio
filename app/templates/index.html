@@ -171,7 +171,12 @@
             <input type="text" name="subject" placeholder="Email Subject">
         </div>
         <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
+        <!-- Google reCAPTCHA -->
+        <div class="g-recaptcha" data-sitekey="{{ site_key }}"></div>
         <input type="submit" value="Send Message" class="btn">
+
+        <input type="text" name="hidden_field_xyz" style="display:none">
     </form>
 </section>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}
